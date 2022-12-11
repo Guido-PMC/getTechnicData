@@ -39,6 +39,7 @@ def job():
             workers_inactive = (json1['data']['invalidNum'])
             paidTodayEstimate = json1['data']['profitToday']['BTC']
         except Exception as e:
+            print(e)
             hashrate = 0
             workers_active = 0
             workers_inactive = 0
