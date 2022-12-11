@@ -6,8 +6,8 @@ import schedule
 
 toTerahash = 1000000000000
 CREDS_BIGQUERY = '/creds/bigsurmining-14baacf42c48.json'
-KEYBINANCE = os.environ['KEY']
-SECRETBINANCE = os.environ['SECRET']
+KEYBINANCE = os.environ['KEYBINANCE']
+SECRETBINANCE = os.environ['SECRETBINANCE']
 client = Spot(key=KEYBINANCE, secret=SECRETBINANCE)
 
 def bigQueryUpdate(query):
