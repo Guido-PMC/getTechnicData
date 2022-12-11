@@ -48,6 +48,6 @@ def job():
         bigQueryUpdate(f"UPDATE BD1.usuarios SET actualHashrate={hashrate}, activeWorkers={workers_active}, inactiveWorkers={workers_inactive}, paidTodayEstimate={paidTodayEstimate} WHERE usuariosPool='{usuariosPool}'")
 
 schedule.every(5).minutes.do(job)
-
+job()
 while True:
     schedule.run_pending()
