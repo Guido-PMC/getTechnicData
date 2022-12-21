@@ -55,7 +55,7 @@ def job():
             workers_inactive = 0
             paidTodayEstimate = 0
             print("--FIN JOB--")
-            global ping
+
             ping = 0
 
         print(f"User: {usuariosPool} Hashrate: {hashrate}, Active Workers: {workers_active}, Offline Workers: {workers_inactive}, Paid Today Estimate: {paidTodayEstimate}")
