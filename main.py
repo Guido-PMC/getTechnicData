@@ -3,7 +3,12 @@ import requests
 import os
 from google.cloud import bigquery
 import schedule
+import time
 
+global last_run
+last_run = round(time.time())
+global ping
+ping = 1
 toTerahash = 1000000000000
 CREDS_BIGQUERY = '/creds/bigsurmining-14baacf42c48.json'
 KEYBINANCE = os.environ['KEYBINANCE']
@@ -38,15 +43,32 @@ def job():
             workers_active = (json1['data']['validNum'])
             workers_inactive = (json1['data']['invalidNum'])
             paidTodayEstimate = json1['data']['profitToday']['BTC']
+            print("--FIN JOB--")
+            global last_run
+            last_run = round(time.time())
+            global ping
+            ping = 1
         except Exception as e:
             print(e)
             hashrate = 0
             workers_active = 0
             workers_inactive = 0
             paidTodayEstimate = 0
+            print("--FIN JOB--")
+            global ping
+            ping = 0
+
         print(f"User: {usuariosPool} Hashrate: {hashrate}, Active Workers: {workers_active}, Offline Workers: {workers_inactive}, Paid Today Estimate: {paidTodayEstimate}")
         bigQueryUpdate(f"UPDATE BD1.usuarios SET actualHashrate={hashrate}, activeWorkers={workers_active}, inactiveWorkers={workers_inactive}, paidTodayEstimate={paidTodayEstimate} WHERE usuariosPool='{usuariosPool}'")
+def monitor():
+    global last_run
+    global ping
+    zabbix_push("pushtozabbix001", "ping", ping)
+    zabbix_push("pushtozabbix001", "last_run", last_run)
+    print("--FIN MONITOR--")
+
 job()
 schedule.every(5).minutes.do(job)
+schedule.every(1).minutes.do(monitor)
 while True:
     schedule.run_pending()
