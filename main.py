@@ -69,8 +69,8 @@ def job():
 def monitor():
     global last_run
     global ping
-    zabbix_push("pushtozabbix001", "ping", ping)
-    zabbix_push("pushtozabbix001", "last_run", last_run)
+    zabbix_push("getTechnicData", "ping", ping)
+    zabbix_push("getTechnicData", "last_run", last_run)
     print("--FIN MONITOR--")
 
 job()
