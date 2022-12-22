@@ -34,6 +34,12 @@ def loadUsersBQ():
         print(f"Cargado usuario {usuario}")
     return usuariosPoolList
 
+def zabbix_push(puid, key, value):
+    stream = os.popen(f"zabbix_sender -z '54.92.215.92'    -s {puid} -k application.{key} -o {str(value)}")
+    output = stream.read()
+    print(f"ID: {puid}, key: {key}, value: {value} {output[37:][:23]}")
+
+
 def job():
     usuariosPoolList = loadUsersBQ()
     for usuariosPool in usuariosPoolList:
